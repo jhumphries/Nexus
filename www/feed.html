@@ -15,13 +15,13 @@
 	</head>
 	<body>
         
-        <div data-role="page" id="feedPage">
+        <div data-role="page">
             <div data-role="header" id="header">
 				<h1>DHS Feed</h1>
 			</div><!-- /header -->
             
             <div data-role="content">
-                <ul id="linksList" data-role="listview" data-inset="true"></ul>
+                <iframe src="http://www.dhs.gov/news/rss.xml" seamless></iframe>
             </div>
             <div data-id="globalfooter" data-role="footer" data-position="fixed">
                 <div data-role="navbar">
@@ -37,26 +37,6 @@
             
         </div>
         
-        <div data-role="page" id="ContentPage">
-			<div data-role="header" id="header">
-				<h1>DHS Feed</h1>
-			</div><!-- /header -->
-			
-            <div data-role="content" id="entryText">
-				<!-- /content -->
-            </div>
-            
-            <div data-id="globalfooter" data-role="footer" data-position="fixed">
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="agency.html" data-icon="info" data-iconpos="top">Info</a></li>
-                        <li><a href="site.html" data-icon="home" data-iconpos="top">Site</a></li>
-                        <li><a href="feed.html" data-icon="plus" data-iconpos="top">News</a></li>
-                        <li><a href="twitt.html" data-icon="search" data-iconpos="top">Twitter</a></li>
-                        <li><a href="contact.html" data-icon="star" data-iconpos="top">Talk</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-            </body>
+
+     </body>
 </html>
