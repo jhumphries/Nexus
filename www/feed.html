@@ -3,11 +3,8 @@
     <head>
         
         <title>DHS Nexus</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0;" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1;" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta charset="UTF-8" /><title>forked: RSS Reader with jQuery Mobile - js do it</title>
-        <meta name="Description" content="jsdo.it - share JavaScript, HTML5 and CSS - " />
-        <meta name="Keywords"  content="JavaScript,HTML5,CSS" />
         <style type="text/css">.ui-footer .ui-btn-right {
         }
             .articleContent > table > tbody > tr > td > font > br {
@@ -23,129 +20,134 @@
                 font-size: medium !important;
             }
             </style>
-    
-    
-        <link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css"/>
 		<link rel="stylesheet" href="css/style.css" />
-		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-		<script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
-		<script type="text/javascript" src="js/klass.min.js"></script>
-		<script type="text/javascript" src="js/custom.js"></script></head>
+    </head>
     <body>
         <div data-role="page">
             <div data-role="header" id="header">
 				<h1>DHS Feed</h1>
 			</div><!-- /header -->
-                   <div data-role="content">
-        <link href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" type="text/css" rel="stylesheet" />
-        <script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
-        <link rel="stylesheet" href="css/style.css" />
-        <script type="text/javascript">
-            // forked from dalettero's "forked: RSS Reader with jQuery Mobile" http://jsdo.it/dalettero/aUDB
-            // added search filter, pubdate
-            // forked from sumukh1's "forked: RSS Reader with jQuery Mobile" http://jsdo.it/sumukh1/4Ton
-            // forked from rotsuya's "RSS Reader with jQuery Mobile" http://jsdo.it/rotsuya/411c
-            /* configuration */
-            var maxLength = 50;
-            /* writing HTML */
-            document.write(
-                           '<div data-role="page" id="list">' +
-                           '  <div data-role="header" data-position="fixed">' +
-                           '    <h1><span id="widgetTitle">...</span> ' +
-                           '      </h1>' +
-                           '  </div>' +
-                           '  <div data-role="content">' +
-                           '    <ul data-role="listview" data-filter="true" id="articleList">'
-                           );
-            for(var i=1; i<=maxLength; i++){
-                document.write(
-                               '<li id="list' + i + '"><a href="#article' + i + '" id="link' + i + '">&nbsp;</a></li>'
-                               );
-            }
-            document.write(
-                           '    </ul>' +
-                           '  </div>' +
-                           '</div>'
-                           );
-            for(i=1; i<=maxLength; i++){
-                document.write(
-                               '<div data-role="page" id="article' + i + '">' +
-                               '  <div data-role="header" data-position="inline">' +
-                               '    <a href="#list" data-role="button" data-icon="grid" data-back="true">Back</a>' +
-                               '    <h1 id="articleHeader' + i + '">&nbsp;</h1>' +
-                               '    <a href="#" id="openButton' + i + '" data-role="button" data-icon="plus"' +
-                               '      class="ui-btn-right" rel="external">Full Article</a>' +
-                               '  </div>' +
-                               '  <div data-role="content">' +
-                               '    <div id="articleContent' + i + '" class="articleContent">' +
-                               '    <p id="articleDate' + i + '" class="articleDate"></p></div>' +
-                               '    <div data-role="controlgroup" data-type="horizontal">' +
-                               '      <a href="#article' + String(i-1) + '" data-role="button" data-icon="arrow-l"' +
-                               '        data-inline="true" class="prevButton">Prev</a>' +
-                               '      <a href="#article' + String(i+1) + '" data-role="button" data-icon="arrow-r"' +
-                               '        data-inline="true" class="nextButton" data-iconpos="right">Next</a>' +
-                               '    </div>' +
-                               '  </div>' +
-                               '</div>'
-                               );
-            }
-            /* JSONP */
-            $(function(){
-              getOnlineFeed('http://www.dhs.gov/news/rss.xml');
-            /*
-             getOnlineFeed('http://www.engadget.com/rss.xml');
-             getOnlineFeed('http://feeds.mashable.com/Mashable?format=xml');
-             getOnlineFeed('http://news.google.com/news?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=atom&topic=h');
-             getOnlineFeed('http://www.appbank.net/feed');
-             getOnlineFeed('http://japanese.engadget.com/rss.xml');
-             getOnlineFeed('http://www.bebit.co.jp/index.xml');
-             getOnlineFeed('http://www.ntt.com/rss/release.rdf?link_id=ostop_service_rss');
-             getOnlineFeed('http://feeds.feedburner.com/gapsis');
-             getOnlineFeed('http://octoba.net/feed');
-             getOfflineFeed('google_news_jsonp.js');
-             */
-              });
-            /* functions */
-            var listEntries = function(json) {
-                if (!json.responseData.feed.entries) return false;
-                $('#widgetTitle').text(json.responseData.feed.title);
-                var articleLength =json.responseData.feed.entries.length;
-                articleLength = (articleLength > maxLength) ? maxLength : articleLength;
-                for (var i = 1; i <= articleLength ; i++) {
-                    var entry = json.responseData.feed.entries[i-1];
-                    $('#link' + i).text(entry.title);
-                    $('#articleDate' + i).text(entry.pubdate);
-                    $('#articleHeader' + i).text(entry.title);
-                    $('#openButton' + i).attr('href', entry.link);
-                    $('#articleContent' + i).append(entry.content);
-                }
-                $('#article1 .prevButton').remove();
-                $('#article' + articleLength + ' .nextButton').remove();
-                if (articleLength < maxLength) {
-                    for (i = articleLength + 1; i <= maxLength; i++) {
-                        $('#list' + i).remove();
-                        $('#article' + i).remove();
+            <div data-role="content">
+                <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
+                <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+                <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+                <link rel="stylesheet" href="css/style.css" />
+                <script type="text/javascript">
+                    // forked from dalettero's "forked: RSS Reader with jQuery Mobile" http://jsdo.it/dalettero/aUDB
+                    // added search filter, pubdate
+                    // forked from sumukh1's "forked: RSS Reader with jQuery Mobile" http://jsdo.it/sumukh1/4Ton
+                    // forked from rotsuya's "RSS Reader with jQuery Mobile" http://jsdo.it/rotsuya/411c
+                    /* configuration */
+                    var maxLength = 50;
+                 
+                    /* JSONP */
+                    jQuery(function($){
+                           $(function(){
+                      getOnlineFeed('http://www.dhs.gov/news/rss.xml');
+                             console.log("getfeed");
+
+                      /*
+                       getOnlineFeed('http://www.engadget.com/rss.xml');
+                       getOnlineFeed('http://feeds.mashable.com/Mashable?format=xml');
+                       getOnlineFeed('http://news.google.com/news?hl=ja&ned=us&ie=UTF-8&oe=UTF-8&output=atom&topic=h');
+                       getOnlineFeed('http://www.appbank.net/feed');
+                       getOnlineFeed('http://japanese.engadget.com/rss.xml');
+                       getOnlineFeed('http://www.bebit.co.jp/index.xml');
+                       getOnlineFeed('http://www.ntt.com/rss/release.rdf?link_id=ostop_service_rss');
+                       getOnlineFeed('http://feeds.feedburner.com/gapsis');
+                       getOnlineFeed('http://octoba.net/feed');
+                       getOfflineFeed('google_news_jsonp.js');
+                       */
+                      });
+                            });
+                    /* functions */
+                    var listEntries = function(json) {
+                        console.log(json.responseData.feed.entries);
+                        if (!json.responseData.feed.entries) return false;
+                        $('#widgetTitle').text(json.responseData.feed.title);
+                        var articleLength =json.responseData.feed.entries.length;
+                        console.log("message"+articleLength);
+                        articleLength = (articleLength > maxLength) ? maxLength : articleLength;
+                        for (var i = 1; i <= articleLength ; i++) {
+                            console.log("start article " + i);
+                            var entry = json.responseData.feed.entries[i-1];
+                            $('#link' + i).text(entry.title);
+                            $('#articleDate' + i).text(entry.publisheddate);
+                            $('#articleHeader' + i).text(entry.title);
+                            $('#openButton' + i).attr('href', entry.link);
+                            $('#articleContent' + i).append(entry.content);
+                            console.log("entry is "+entry);
+                        }
+                        $('#article1 .prevButton').remove();
+                        $('#article' + articleLength + ' .nextButton').remove();
+                        if (articleLength < maxLength) {
+                            for (i = articleLength + 1; i <= maxLength; i++) {
+                                $('#list' + i).remove();
+                                $('#article' + i).remove();
+                            }
+                        }
+                    };
+                    var getOnlineFeed = function(url) {
+                        var script = document.createElement('script');
+                        script.setAttribute('src', 'http://ajax.googleapis.com/ajax/services/feed/load?callback=listEntries&hl=ja&output=json-in-script&q='
+                                            + encodeURIComponent(url)
+                                            + '&v=1.0&num=' + maxLength);
+                        script.setAttribute('type', 'text/javascript');
+                        document.documentElement.firstChild.appendChild(script);
+                    };
+                    var getOfflineFeed = function(url) {
+                        var script = document.createElement('script');
+                        script.setAttribute('src', url);
+                        script.setAttribute('type', 'text/javascript');
+                        document.documentElement.firstChild.appendChild(script);
+                    };
+                    
+                    /* writing HTML */
+                    document.write(
+                                   '<div data-role="page" id="list">' +
+                                   '  <div data-role="header" data-position="fixed">' +
+                                   '    <h1><span id="widgetTitle">...</span> ' +
+                                   '      </h1>' +
+                                   '  </div>' +
+                                   '  <div data-role="content">' +
+                                   '    <ul data-role="listview" data-filter="true" id="articleList">'
+                                   );
+                    console.log("writing");
+                    for(var i=1; i<=maxLength; i++){
+                        document.write(
+                                       '<li id="list' + i + '"><a href="#article' + i + '" id="link' + i + '">&nbsp;</a></li>'
+                                       );
                     }
-                }
-            };
-            var getOnlineFeed = function(url) {
-                var script = document.createElement('script');
-                script.setAttribute('src', 'http://ajax.googleapis.com/ajax/services/feed/load?callback=listEntries&hl=ja&output=json-in-script&q='
-                                    + encodeURIComponent(url)
-                                    + '&v=1.0&num=' + maxLength);
-                script.setAttribute('type', 'text/javascript');
-                document.documentElement.firstChild.appendChild(script);
-            };
-            var getOfflineFeed = function(url) {
-                var script = document.createElement('script');
-                script.setAttribute('src', url);
-                script.setAttribute('type', 'text/javascript');
-                document.documentElement.firstChild.appendChild(script);
-            };
-            </script>
-                       
-                   </div>
+                    document.write(
+                                   '    </ul>' +
+                                   '  </div>' +
+                                   '</div>'
+                                   );
+                    for(i=1; i<=maxLength; i++){
+                        document.write(
+                                       '<div data-role="page" id="article' + i + '">' +
+                                       '  <div data-role="header" data-position="inline">' +
+                                       '    <a href="#list" data-role="button" data-icon="grid" data-back="true">Back</a>' +
+                                       '    <h1 id="articleHeader' + i + '">&nbsp;</h1>' +
+                                       '    <a href="#" id="openButton' + i + '" data-role="button" data-icon="plus"' +
+                                       '      class="ui-btn-right" rel="external">Full Article</a>' +
+                                       '  </div>' +
+                                       '  <div data-role="content">' +
+                                       '    <div id="articleContent' + i + '" class="articleContent">' +
+                                       '    <p id="articleDate' + i + '" class="articleDate"></p></div>' +
+                                       '    <div data-role="controlgroup" data-type="horizontal">' +
+                                       '      <a href="#article' + String(i-1) + '" data-role="button" data-icon="arrow-l"' +
+                                       '        data-inline="true" class="prevButton">Prev</a>' +
+                                       '      <a href="#article' + String(i+1) + '" data-role="button" data-icon="arrow-r"' +
+                                       '        data-inline="true" class="nextButton" data-iconpos="right">Next</a>' +
+                                       '    </div>' +
+                                       '  </div>' +
+                                       '</div>'
+                                       );
+                    }
+                    </script>
+                
+            </div>
             <div data-id="globalfooter" data-role="footer" data-position="fixed">
                 <div data-role="navbar">
                     <ul>
@@ -158,49 +160,49 @@
                 </div>
             </div>
         </div>
-
+        
     </body>
 </html>
 <!--
-
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>DHS Nexus</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0;" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-        
-		<link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css"/>
-		<link rel="stylesheet" href="css/style.css" />
-		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-		<script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
-		<script type="text/javascript" src="js/klass.min.js"></script>
-		<script type="text/javascript" src="js/custom.js"></script>
-        <script type="text/javascript" src="js/rssfeed.js"></script>
-        <link href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" type="text/css" rel="stylesheet" />
-        <script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
-	</head>
-	<body>
-        <div data-role="page">
-            <div data-role="header" id="header">
-				<h1>DHS Feed</h1>
-			</div><!-- /header --
-            <div data-role="content">
-                <script type="text/javascript" src="rssread.js"></script>
-            </div>
-            <div data-id="globalfooter" data-role="footer" data-position="fixed">
-                <div data-role="navbar">
-                    <ul>
-                        <li><a href="agency.html" data-icon="info" data-iconpos="top">Info</a></li>
-                        <li><a href="site.html" data-icon="home" data-iconpos="top">Site</a></li>
-                        <li><a href="feed.html" data-icon="plus" data-iconpos="top">News</a></li>
-                        <li><a href="twitt.html" data-icon="search" data-iconpos="top">Twitter</a></li>
-                        <li><a href="contact.html" data-icon="star" data-iconpos="top">Talk</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
--->
+ 
+ <!DOCTYPE html>
+ <html>
+ <head>
+ <title>DHS Nexus</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0;" />
+ <meta name="apple-mobile-web-app-capable" content="yes" />
+ 
+ <link rel="stylesheet" href="css/jquery.mobile-1.2.0.min.css"/>
+ <link rel="stylesheet" href="css/style.css" />
+ <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+ <script type="text/javascript" src="js/jquery.mobile-1.2.0.min.js"></script>
+ <script type="text/javascript" src="js/klass.min.js"></script>
+ <script type="text/javascript" src="js/custom.js"></script>
+ <script type="text/javascript" src="js/rssfeed.js"></script>
+ <link href="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.css" type="text/css" rel="stylesheet" />
+ <script src="http://code.jquery.com/jquery-1.4.4.min.js"></script>
+ <script src="http://code.jquery.com/mobile/1.0a2/jquery.mobile-1.0a2.min.js"></script>
+ </head>
+ <body>
+ <div data-role="page">
+ <div data-role="header" id="header">
+ <h1>DHS Feed</h1>
+ </div><!-- /header --
+ <div data-role="content">
+ <script type="text/javascript" src="rssread.js"></script>
+ </div>
+ <div data-id="globalfooter" data-role="footer" data-position="fixed">
+ <div data-role="navbar">
+ <ul>
+ <li><a href="agency.html" data-icon="info" data-iconpos="top">Info</a></li>
+ <li><a href="site.html" data-icon="home" data-iconpos="top">Site</a></li>
+ <li><a href="feed.html" data-icon="plus" data-iconpos="top">News</a></li>
+ <li><a href="twitt.html" data-icon="search" data-iconpos="top">Twitter</a></li>
+ <li><a href="contact.html" data-icon="star" data-iconpos="top">Talk</a></li>
+ </ul>
+ </div>
+ </div>
+ </div>
+ </body>
+ </html>
+ -->
